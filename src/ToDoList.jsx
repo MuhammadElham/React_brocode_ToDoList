@@ -4,9 +4,11 @@ function TodoList() {
   const [tasks, setTasks] = useState(["Eat Break Fast" , "Take a Shover" , "Walk with Dog"]);
   const [newTask, setNewTask] = useState("");
 
+  
   function handleInputChange(event) {
     setNewTask(event.target.value);
   }
+  
   function addTask() {
     if(newTask.trim() !== ""){
         setTasks(tasks => [...tasks,newTask])
@@ -16,8 +18,20 @@ function TodoList() {
         alert("Enter the Task")
     }
   }
-  function deleteTask() {}
-  function moveTaskUp(event) {}
+  
+  function deleteTask(item) {
+    setTasks(tasks => tasks.filter(task => task !== item))
+  }
+  
+  function moveTaskUp(index) {
+
+    if(index > 0){
+        const updatedTask = [...tasks];
+        [updatedTask[index],updatedTask[index-1]] =
+        [updatedTask[index-1],updatedTask[index]];
+        setTasks(updatedTask)
+    }
+  }
   function moveTaskDown(event) {}
 
 
@@ -32,9 +46,9 @@ function TodoList() {
                 {tasks.map((task,index) => 
                 <li key={index}>
                  <span className="text">{task}</span>
-                 <button className="delete-button" onClick={() => deleteTask(index)}>Delete</button>   
-                 <button className="move-button" onClick={() => moveTaskUp(index)}><i class="fa-solid fa-arrow-up"></i></button>   
-                 <button className="move-button" onClick={() => moveTaskDown(index)}><i class="fa-solid fa-arrow-down"></i></button>   
+                 <button className="delete-button" onClick={() => deleteTask(task)}>Delete</button>   
+                 <button className="move-button" onClick={() => moveTaskUp(index)}><i className="fa-solid fa-arrow-up"></i></button>   
+                 <button className="move-button" onClick={() => moveTaskDown(index)}><i className="fa-solid fa-arrow-down"></i></button>   
                 </li>
                 )}
             </ol>
